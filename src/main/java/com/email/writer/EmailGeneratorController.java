@@ -1,21 +1,20 @@
 package com.email.writer;
 
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
-@RequestMapping("api/email")
-@AllArgsConstructor
+@RequestMapping("/api/email")
 public class EmailGeneratorController {
 
-    private final EmailGeneratorService emailgeneratorService;
+    private final EmailGeneratorService emailGeneratorService;
+
+    // ✅ Constructor Injection (Spring will inject automatically)
+    public EmailGeneratorController(EmailGeneratorService emailGeneratorService) {
+        this.emailGeneratorService = emailGeneratorService;
+    }
 
     @PostMapping("/generate")
-    public ResponseEntity<String> generateEmail(@RequestBody EmailRequest emailRequest){
-        String response = emailgeneratorService.generateEmailReply(emailRequest);
-        return ResponseEntity.ok("response");
+    public String generateEmail(@RequestBody EmailRequest request) {
+        return emailGeneratorService.generateEmailReply(request);
     }
 }
