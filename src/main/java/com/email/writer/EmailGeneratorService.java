@@ -72,18 +72,36 @@ public class EmailGeneratorService {
         }
     }
 
-    private String buildPrompt(EmailRequest emailRequest) {
-        StringBuilder prompt = new StringBuilder();
+//    private String buildPrompt(EmailRequest emailRequest) {
+//        StringBuilder prompt = new StringBuilder();
+//
+//        prompt.append("Generate a professional email reply.\n");
+//
+//        if (emailRequest.getTone() != null && !emailRequest.getTone().isEmpty()) {
+//            prompt.append("Use a ").append(emailRequest.getTone()).append(" tone.\n");
+//        }
+//
+//        prompt.append("Original Email:\n")
+//                .append(emailRequest.getEmailContent());
+//
+//        return prompt.toString();
+//    }
+private String buildPrompt(EmailRequest emailRequest) {
+    StringBuilder prompt = new StringBuilder();
 
-        prompt.append("Generate a professional email reply.\n");
+    prompt.append("You are an AI assistant that writes short, direct email replies.\n");
+    prompt.append("Do NOT explain anything.\n");
+    prompt.append("Do NOT give multiple options.\n");
+    prompt.append("Do NOT include headings or templates.\n");
+    prompt.append("ONLY write the final reply email.\n\n");
 
-        if (emailRequest.getTone() != null && !emailRequest.getTone().isEmpty()) {
-            prompt.append("Use a ").append(emailRequest.getTone()).append(" tone.\n");
-        }
-
-        prompt.append("Original Email:\n")
-                .append(emailRequest.getEmailContent());
-
-        return prompt.toString();
+    if (emailRequest.getTone() != null && !emailRequest.getTone().isEmpty()) {
+        prompt.append("Use a ").append(emailRequest.getTone()).append(" tone.\n");
     }
+
+    prompt.append("Reply to the following email:\n\n");
+    prompt.append(emailRequest.getEmailContent());
+
+    return prompt.toString();
+}
 }
